@@ -61,6 +61,16 @@ class App extends Component {
     return value;
   };
 
+  handleDelete = i => {
+    const cpyCurrencyList = Object.assign(this.state.currencyList);
+
+    cpyCurrencyList.splice(i, 1);
+
+    this.setState({
+      currencyList: cpyCurrencyList
+    });
+  };
+
   render() {
     const { currencyList, rates, currentValue, base } = this.state;
 
@@ -75,12 +85,12 @@ class App extends Component {
             </CurrentInputContainer>
           </CurrentValue>
           <ConvertedValues>
-            {currencyList.map(currency => {
+            {currencyList.map((currency, i) => {
               const convertedValue = rates[currency] * currentValue;
               const displayValue = this.formatValue(convertedValue);
 
               return (
-                <ConvertedValDetail>
+                <ConvertedValDetail key={i}>
                   <DetailContainer>
                     <AmountContainer>
                       <AmmountDetail>{currency}</AmmountDetail>
@@ -89,7 +99,9 @@ class App extends Component {
                     <CurrecyName>{this.convertAbbr(currency)}</CurrecyName>
                     <ConvCurrencyDetail>{`${currentValue} ${base} = ${currency} ${displayValue}`}</ConvCurrencyDetail>
                   </DetailContainer>
-                  <DeleteBox>( - )</DeleteBox>
+                  <DeleteBox onClick={() => this.handleDelete(i)}>
+                    ( - )
+                  </DeleteBox>
                 </ConvertedValDetail>
               );
             })}
@@ -170,7 +182,10 @@ const DeleteBox = styled.div({
   alignItems: "center",
   justifyContent: "center",
   borderLeft: "2px solid lightgrey",
-  paddingLeft: "15px"
+  paddingLeft: "15px",
+  "&:hover": {
+    cursor: "pointer"
+  }
 });
 
 const DetailContainer = styled.div({
