@@ -1,9 +1,69 @@
 import React, { Component } from "react";
 import "./App.css";
 import styled from "styled-components";
+import axios from "axios";
 
 class App extends Component {
+  state = {
+    base: "USD",
+    rates: {},
+    date: null,
+    currentValue: 1,
+    currencyList: ["IDR", "EUR", "GBP", "SGD"]
+  };
+
+  componentDidMount() {
+    axios
+      .get(`https://api.exchangeratesapi.io/latest?base=${this.state.base}`)
+      .then(({ data }) => {
+        this.setState({ ...data });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  convertAbbr = abbreviation => {
+    switch (abbreviation) {
+      case "IDR":
+        abbreviation += " - Indonesian Rupiah";
+        break;
+      case "EUR":
+        abbreviation += " - Euro";
+        break;
+      case "GBP":
+        abbreviation += " - British Pound";
+        break;
+      case "JPY":
+        abbreviation += " - Japanese Yen";
+        break;
+      default:
+        abbreviation += " - Not Found";
+    }
+
+    return abbreviation;
+  };
+
+  formatValue = value => {
+    value = value.toFixed(4);
+
+    value = value.split(".");
+    value[0] = value[0].split("").map((digit, i) => {
+      if ((i + 1) % 3 === 0) {
+        return "," + digit;
+      } else {
+        return digit;
+      }
+    });
+    value[0] = value[0].join("");
+    value = value.join(".");
+
+    return value;
+  };
+
   render() {
+    const { currencyList, rates, currentValue, base } = this.state;
+
     return (
       <AppContainer>
         <CalculatorBox>
@@ -15,17 +75,24 @@ class App extends Component {
             </CurrentInputContainer>
           </CurrentValue>
           <ConvertedValues>
-            <ConvertedValDetail>
-              <DetailContainer>
-                <AmountContainer>
-                  <AmmountDetail>IDR</AmmountDetail>
-                  <AmmountDetail>14000</AmmountDetail>
-                </AmountContainer>
-                <CurrecyName>IDR - Indonesian Rupiah</CurrecyName>
-                <ConvCurrencyDetail>1 USD = IDR 14,410.00</ConvCurrencyDetail>
-              </DetailContainer>
-              <DeleteBox>( - )</DeleteBox>
-            </ConvertedValDetail>
+            {currencyList.map(currency => {
+              const convertedValue = rates[currency] * currentValue;
+              const displayValue = this.formatValue(convertedValue);
+
+              return (
+                <ConvertedValDetail>
+                  <DetailContainer>
+                    <AmountContainer>
+                      <AmmountDetail>{currency}</AmmountDetail>
+                      <AmmountDetail>{displayValue}</AmmountDetail>
+                    </AmountContainer>
+                    <CurrecyName>{this.convertAbbr(currency)}</CurrecyName>
+                    <ConvCurrencyDetail>{`${currentValue} ${base} = ${currency} ${displayValue}`}</ConvCurrencyDetail>
+                  </DetailContainer>
+                  <DeleteBox>( - )</DeleteBox>
+                </ConvertedValDetail>
+              );
+            })}
           </ConvertedValues>
         </CalculatorBox>
       </AppContainer>
@@ -34,18 +101,19 @@ class App extends Component {
 }
 
 const AppContainer = styled.div({
+  marginTop: "15px",
   display: "flex",
   justifyContent: "center"
 });
 
 const CalculatorBox = styled.div({
   width: "600px",
-  border: "2px solid grey"
+  border: "2px solid lightgrey"
 });
 
 const CurrentValue = styled.div({
   padding: "15px 15px 15px 15px",
-  borderBottom: "2px solid grey"
+  borderBottom: "2px solid lightgrey"
 });
 
 const ConvertedValues = styled.div({
@@ -66,18 +134,19 @@ const InputDesc = styled.h2({
 });
 
 const CurrValInputForm = styled.input({
-  border: "2px solid grey",
+  border: "2px solid lightgrey",
   borderRadius: "5px",
   width: "200px",
   textAlign: "right"
 });
 
 const ConvertedValDetail = styled.div({
-  border: "2px solid grey",
+  border: "2px solid lightgrey",
   borderRadius: "2px",
   padding: "15px",
   display: "grid",
-  gridTemplateColumns: "90% 10%"
+  gridTemplateColumns: "90% 10%",
+  marginBottom: "15px"
 });
 
 const AmountContainer = styled.div({
@@ -100,7 +169,7 @@ const DeleteBox = styled.div({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  borderLeft: "2px solid grey",
+  borderLeft: "2px solid lightgrey",
   paddingLeft: "15px"
 });
 
