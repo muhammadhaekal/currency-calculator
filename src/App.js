@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 
@@ -17,12 +16,15 @@ class App extends Component {
           </CurrentValue>
           <ConvertedValues>
             <ConvertedValDetail>
-              <AmountContainer>
-                <AmmountDetail>IDR</AmmountDetail>
-                <AmmountDetail>14000</AmmountDetail>
-              </AmountContainer>
-              <CurrecyName>IDR - Indonesian Rupiah</CurrecyName>
-              <ConvCurrencyDetail>1 USD = IDR 14,410.00</ConvCurrencyDetail>
+              <DetailContainer>
+                <AmountContainer>
+                  <AmmountDetail>IDR</AmmountDetail>
+                  <AmmountDetail>14000</AmmountDetail>
+                </AmountContainer>
+                <CurrecyName>IDR - Indonesian Rupiah</CurrecyName>
+                <ConvCurrencyDetail>1 USD = IDR 14,410.00</ConvCurrencyDetail>
+              </DetailContainer>
+              <DeleteBox>( - )</DeleteBox>
             </ConvertedValDetail>
           </ConvertedValues>
         </CalculatorBox>
@@ -73,7 +75,9 @@ const CurrValInputForm = styled.input({
 const ConvertedValDetail = styled.div({
   border: "2px solid grey",
   borderRadius: "2px",
-  padding: "15px"
+  padding: "15px",
+  display: "grid",
+  gridTemplateColumns: "90% 10%"
 });
 
 const AmountContainer = styled.div({
@@ -92,4 +96,15 @@ const CurrecyName = styled.div({
 
 const ConvCurrencyDetail = styled.div({});
 
+const DeleteBox = styled.div({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderLeft: "2px solid grey",
+  paddingLeft: "15px"
+});
+
+const DetailContainer = styled.div({
+  paddingRight: "15px"
+});
 export default App;
