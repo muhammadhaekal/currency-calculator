@@ -63,6 +63,9 @@ const convertAbbr = abbreviation => {
     case "MYR":
       abbreviation += " - Malaysian Ringgit";
       break;
+    case "USD":
+      abbreviation += " - United States Dollar";
+      break;
     default:
       abbreviation += " - Not Found";
   }
