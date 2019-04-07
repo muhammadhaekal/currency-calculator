@@ -60,6 +60,9 @@ const convertAbbr = abbreviation => {
     case "CHF":
       abbreviation += " - Swiss Franc";
       break;
+    case "MYR":
+      abbreviation += " - Malaysian Ringgit";
+      break;
     default:
       abbreviation += " - Not Found";
   }
