@@ -9,7 +9,8 @@ class App extends Component {
     rates: {},
     date: null,
     currentValue: 1,
-    currencyList: ["IDR", "EUR", "GBP", "SGD"]
+    currencyList: ["IDR", "EUR", "GBP", "SGD"],
+    newCurrency: ""
   };
 
   componentDidMount() {
@@ -121,6 +122,15 @@ class App extends Component {
                 </ConvertedValDetail>
               );
             })}
+            <InputNewCurrencyContainer>
+              <InputNewCurrency
+                type="text"
+                name="newCurrency"
+                value={this.state.newCurrency}
+                onChange={this.handleOnChange}
+              />
+              <SubmitButton>Submit</SubmitButton>
+            </InputNewCurrencyContainer>
           </ConvertedValues>
         </CalculatorBox>
       </AppContainer>
@@ -207,4 +217,25 @@ const DeleteBox = styled.div({
 const DetailContainer = styled.div({
   paddingRight: "15px"
 });
+
+const InputNewCurrencyContainer = styled.div({
+  display: "flex"
+});
+
+const InputNewCurrency = styled.input({
+  width: "100%",
+  border: "2px solid lightgrey",
+  borderRadius: "5px",
+  marginRight: "15px",
+  fontSize: "18px"
+});
+
+const SubmitButton = styled.button({
+  border: "2px solid lightgrey",
+  borderRadius: "5px",
+  "&:hover": {
+    cursor: "pointer"
+  }
+});
+
 export default App;
