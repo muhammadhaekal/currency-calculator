@@ -27,5 +27,6 @@ npm run docker-run
 ### Testing (Puppeteer)
 
 ```
+npm start
 npm test
 ```
