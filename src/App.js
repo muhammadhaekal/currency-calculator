@@ -12,7 +12,7 @@ class App extends Component {
     date: null,
     currentAmount: 1,
     currencyList: ["IDR", "EUR", "GBP", "SGD"],
-    newCurrency: "",
+    newCurrency: "JPY",
     isInputActive: false
   };
 
