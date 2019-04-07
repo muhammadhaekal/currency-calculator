@@ -17,7 +17,9 @@
     "build": "react-scripts build",
     "test": "jest",
     "debug": "NODE_ENV=debug npm test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docker-build": "docker build . -t shakyshane/cra-docker",
+    "docker-run": "docker run -p 8080:80 shakyshane/cra-docker"
   },
   "eslintConfig": {
     "extends": "react-app"
