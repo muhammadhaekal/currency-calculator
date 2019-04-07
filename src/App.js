@@ -10,7 +10,8 @@ class App extends Component {
     date: null,
     currentValue: 1,
     currencyList: ["IDR", "EUR", "GBP", "SGD"],
-    newCurrency: ""
+    newCurrency: "",
+    isInputActive: false
   };
 
   componentDidMount() {
@@ -37,6 +38,9 @@ class App extends Component {
         break;
       case "JPY":
         abbreviation += " - Japanese Yen";
+        break;
+      case "SGD":
+        abbreviation += " - Singapore Dollar";
         break;
       default:
         abbreviation += " - Not Found";
@@ -69,7 +73,6 @@ class App extends Component {
 
   handleDelete = i => {
     const cpyCurrencyList = Object.assign(this.state.currencyList);
-
     cpyCurrencyList.splice(i, 1);
 
     this.setState({
@@ -78,13 +81,38 @@ class App extends Component {
   };
 
   handleOnChange = e => {
+    // Conver input to upperCase
+    e.target.value = e.target.value.toUpperCase();
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
+  handleOnClick = () => {
+    let tempCurrencyList = Object.assign(this.state.currencyList);
+    tempCurrencyList.push(this.state.newCurrency);
+
+    this.setState({
+      currencyList: tempCurrencyList,
+      newCurrency: "",
+      isInputActive: !this.state.isInputActive
+    });
+  };
+
+  handleToggle = () => {
+    this.setState({
+      isInputActive: !this.state.isInputActive
+    });
+  };
+
   render() {
-    const { currencyList, rates, currentValue, base } = this.state;
+    const {
+      currencyList,
+      rates,
+      currentValue,
+      base,
+      isInputActive
+    } = this.state;
 
     return (
       <AppContainer>
@@ -122,15 +150,21 @@ class App extends Component {
                 </ConvertedValDetail>
               );
             })}
-            <InputNewCurrencyContainer>
-              <InputNewCurrency
-                type="text"
-                name="newCurrency"
-                value={this.state.newCurrency}
-                onChange={this.handleOnChange}
-              />
-              <SubmitButton>Submit</SubmitButton>
-            </InputNewCurrencyContainer>
+            {isInputActive ? (
+              <InputNewCurrencyContainer>
+                <InputNewCurrency
+                  type="text"
+                  name="newCurrency"
+                  value={this.state.newCurrency}
+                  onChange={this.handleOnChange}
+                />
+                <SubmitButton onClick={this.handleOnClick}>Submit</SubmitButton>
+              </InputNewCurrencyContainer>
+            ) : (
+              <InputToggle onClick={this.handleToggle}>
+                ( + ) Add More Currencies
+              </InputToggle>
+            )}
           </ConvertedValues>
         </CalculatorBox>
       </AppContainer>
@@ -175,7 +209,8 @@ const CurrValInputForm = styled.input({
   border: "2px solid lightgrey",
   borderRadius: "5px",
   width: "200px",
-  textAlign: "right"
+  textAlign: "right",
+  fontSize: "18px"
 });
 
 const ConvertedValDetail = styled.div({
@@ -233,6 +268,17 @@ const InputNewCurrency = styled.input({
 const SubmitButton = styled.button({
   border: "2px solid lightgrey",
   borderRadius: "5px",
+  "&:hover": {
+    cursor: "pointer"
+  }
+});
+
+const InputToggle = styled.div({
+  backgroundColor: "lightgrey",
+  height: "17px",
+  borderRadius: "5px",
+  textAlign: "center",
+  padding: "5px",
   "&:hover": {
     cursor: "pointer"
   }
