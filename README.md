@@ -11,7 +11,7 @@ Currency converter Web App to help you convert USD (with specific amount) to man
 1. Docker
 1. Axios
 
-## Setup Development Mode (NPM)
+### Setup Development Mode
 
 ```sh
 npm start
