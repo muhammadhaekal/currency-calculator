@@ -18,7 +18,9 @@ const ConvertedValues = ({
           <ConvertedValDetail key={i}>
             <DetailContainer>
               <AmountContainer>
-                <AmmountDetail>{currency}</AmmountDetail>
+                <AmmountDetail className="currency-code">
+                  {currency}
+                </AmmountDetail>
                 <AmmountDetail>{displayValue}</AmmountDetail>
               </AmountContainer>
               <CurrecyName>{convertAbbr(currency)}</CurrecyName>
@@ -48,6 +50,15 @@ const convertAbbr = abbreviation => {
       break;
     case "SGD":
       abbreviation += " - Singapore Dollar";
+      break;
+    case "INR":
+      abbreviation += " - Indian Rupee";
+      break;
+    case "CAD":
+      abbreviation += " - Canadian Dollar";
+      break;
+    case "CHF":
+      abbreviation += " - Swiss Franc";
       break;
     default:
       abbreviation += " - Not Found";

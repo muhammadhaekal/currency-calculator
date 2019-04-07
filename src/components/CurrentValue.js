@@ -6,7 +6,7 @@ const CurrentValue = ({ currentAmount, handleOnChange }) => {
     <CurrentValueContainer>
       <CurrentValDesc>USD - United States Dollar</CurrentValDesc>
       <CurrentInputContainer>
-        <InputDesc>USD</InputDesc>
+        <InputDesc className="default-base-currency">USD</InputDesc>
         <CurrValInputForm
           type="number"
           name="currentAmount"
