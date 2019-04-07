@@ -12,12 +12,6 @@ const NewCurrencyToggle = ({
     <React.Fragment>
       {isInputActive ? (
         <InputNewCurrencyContainer>
-          {/* <InputNewCurrency
-            type="text"
-            name="newCurrency"
-            value={newCurrency}
-            onChange={handleOnChange}
-          /> */}
           <InputNewCurrency
             name="newCurrency"
             value={newCurrency}
